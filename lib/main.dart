@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'screens/log_in.dart';
+import 'package:get/get.dart';
+// ignore: unused_import
+import 'views/login.dart';
+import 'package:flutter_application_2/routes.dart';
 
 void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  runApp(
+    GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
-    );
-  }
+      initialRoute: '/',
+      getPages: routes,
+    ),
+  );
 }
