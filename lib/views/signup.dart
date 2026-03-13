@@ -22,7 +22,7 @@ class _SignupScreenState extends State<SignupScreen> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("sign_up.jpg"),
+                image: AssetImage("assets/sign_up.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -35,7 +35,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 children: [
                   SizedBox(height: 40),
 
-                  Image.asset("logo.jpg", height: 200, width: 200),
+                  Image.asset("assets/logo.jpg", height: 200, width: 200),
 
                   SizedBox(height: 20),
 
@@ -61,6 +61,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   SizedBox(height: 5),
 
                   TextField(
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: "Enter full name",
                       labelStyle: TextStyle(color: Colors.white),
@@ -89,6 +90,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   SizedBox(height: 5),
 
                   TextField(
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: "Enter email or phone",
                       labelStyle: TextStyle(color: Colors.white),
@@ -116,6 +118,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   SizedBox(height: 5),
 
                   TextField(
+                    style: TextStyle(color: Colors.white),
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: "Enter password",
@@ -144,9 +147,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   SizedBox(height: 5),
 
                   TextField(
+                    style: TextStyle(color: Colors.white),
                     obscureText: true,
                     decoration: InputDecoration(
-                      hintText: "Confirm password",
+                      labelText: "Confirm password",
                       labelStyle: TextStyle(color: Colors.white),
                       prefixIcon: Icon(Icons.lock),
                       border: OutlineInputBorder(

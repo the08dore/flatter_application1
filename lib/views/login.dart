@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("sign_up.jpg"),
+                image: AssetImage("assets/sign_up.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -58,11 +58,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 10),
 
                   TextField(
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
                       labelText: "Use email or phone number",
+                      labelStyle: TextStyle(color: Colors.white),
                       prefixIcon: Icon(Icons.person),
                     ),
                   ),
@@ -85,12 +87,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 10),
 
                   TextField(
+                    style: TextStyle(color: Colors.white),
                     obscureText: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
                       labelText: "Pin or password",
+                      labelStyle: TextStyle(color: Colors.white),
                       prefixIcon: const Icon(Icons.lock),
                     ),
                   ),
@@ -127,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(color: Colors.blue),
                         ),
                       ),
-
+                      Spacer(),
                       SizedBox(width: 10),
                       Text("Forgot password? "),
                       Text("Reset", style: TextStyle(color: Colors.blue)),
