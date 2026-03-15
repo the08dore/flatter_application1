@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/config/colors.dart';
+import 'package:get/get.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -161,16 +162,21 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   SizedBox(height: 30),
 
-                  Container(
-                    height: 50,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      "Create Account",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed('/splashscreen');
+                    },
+                    child: Container(
+                      height: 50,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        "Create Account",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
                     ),
                   ),
                 ],

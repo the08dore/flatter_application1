@@ -101,16 +101,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   SizedBox(height: 30),
 
-                  Container(
-                    height: 50,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Text(
-                      "Login",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed("/homescreen");
+                    },
+                    child: Container(
+                      height: 50,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
                     ),
                   ),
 
