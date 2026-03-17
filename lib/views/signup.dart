@@ -36,12 +36,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 children: [
                   SizedBox(height: 40),
 
-                  Image.asset("assets/logo.jpg", height: 200, width: 200),
+                  Image.asset("assets/logo.jpg", height: 100, width: 200),
 
                   SizedBox(height: 20),
 
                   Text(
-                    "Login Screen",
+                    "signupScreen",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
                   ),
 
@@ -79,7 +79,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   Row(
                     children: [
                       Text(
-                        "Email or Phone",
+                        "Email",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -93,9 +93,63 @@ class _SignupScreenState extends State<SignupScreen> {
                   TextField(
                     style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
-                      labelText: "Enter email or phone",
+                      labelText: "Enter email",
                       labelStyle: TextStyle(color: Colors.white),
                       prefixIcon: Icon(Icons.email),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+
+                  Row(
+                    children: [
+                      Text(
+                        "Enter phone number",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 5),
+
+                  TextField(
+                    style: TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      labelText: "Enter phone number",
+                      labelStyle: TextStyle(color: Colors.white),
+                      prefixIcon: Icon(Icons.phone),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+
+                  Row(
+                    children: [
+                      Text(
+                        "Enter ID number",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 5),
+
+                  TextField(
+                    style: TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      labelText: "Enter ID number",
+                      labelStyle: TextStyle(color: Colors.white),
+                      prefixIcon: Icon(Icons.card_travel),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -178,6 +232,28 @@ class _SignupScreenState extends State<SignupScreen> {
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
+                  ),
+                  SizedBox(height: 10),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "would you like to join as a lawyer",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      SizedBox(width: 5),
+
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed('/lawyersignup');
+                        },
+                        child: Text(
+                          "click to join as lawyer",
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

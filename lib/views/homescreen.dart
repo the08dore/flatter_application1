@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -60,30 +61,42 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: ListView(
                       controller: scrollController,
-                      children: const [
+                      children: [
                         ListTile(
-                          leading: Icon(Icons.dashboard),
-                          title: Text("Dashboard"),
+                          leading: const Icon(Icons.person),
+                          title: const Text("Lawyers"),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Get.toNamed('/lawyers');
+                          },
                         ),
 
                         ListTile(
-                          leading: Icon(Icons.person),
-                          title: Text("Profile"),
+                          leading: const Icon(Icons.chat),
+                          title: const Text("Post Question"),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Get.toNamed('/questions');
+                          },
                         ),
 
                         ListTile(
-                          leading: Icon(Icons.settings),
-                          title: Text("Settings"),
+                          leading: const Icon(Icons.settings),
+                          title: const Text("Settings"),
                         ),
 
                         ListTile(
-                          leading: Icon(Icons.notifications),
-                          title: Text("Notifications"),
+                          leading: const Icon(Icons.notifications),
+                          title: const Text("Notifications"),
                         ),
 
                         ListTile(
-                          leading: Icon(Icons.logout),
-                          title: Text("Logout"),
+                          leading: const Icon(Icons.logout),
+                          title: const Text("Logout"),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Get.toNamed('/');
+                          },
                         ),
                       ],
                     ),
@@ -107,7 +120,33 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          onPressed: () => Navigator.pop(context),
+        ),
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert),
+            onSelected: (value) {
+              if (value == 'profile') {
+                Get.toNamed('/profile');
+              } else if (value == 'exit') {
+                Get.toNamed('/login');
+              }
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'profile',
+                child: Text('View profile'),
+              ),
+              const PopupMenuItem(value: 'exit', child: Text('Log out')),
+            ],
+          ),
+        ],
+      ),
+
+      body: Center(
         child: Text(
           "Home Screen",
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -131,12 +170,6 @@ class _HomeScreenState extends State<HomeScreen> {
             size: 30,
             color: selectedIndex == 1 ? Colors.white : Colors.white70,
           ),
-
-          Icon(
-            Icons.person,
-            size: 30,
-            color: selectedIndex == 2 ? Colors.white : Colors.white70,
-          ),
         ],
 
         onTap: (index) {
@@ -152,14 +185,6 @@ class _HomeScreenState extends State<HomeScreen> {
             });
 
             showMenu(context, "List Menu");
-          }
-
-          if (index == 2) {
-            setState(() {
-              selectedIndex = 2;
-            });
-
-            showMenu(context, "Profile Menu");
           }
         },
       ),
