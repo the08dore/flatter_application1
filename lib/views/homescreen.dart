@@ -146,32 +146,35 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
 
-      body: Center(
-        child: Text(
-          "Home Screen",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-        ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/sign_up.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ],
       ),
 
       bottomNavigationBar: CurvedNavigationBar(
         key: _bottomNavigationKey,
         backgroundColor: Colors.white,
         color: Colors.blue,
-
         items: <Widget>[
           Icon(
             Icons.home,
             size: 30,
             color: selectedIndex == 0 ? Colors.white : Colors.white70,
           ),
-
           Icon(
             Icons.list,
             size: 30,
             color: selectedIndex == 1 ? Colors.white : Colors.white70,
           ),
         ],
-
         onTap: (index) {
           if (index == 0) {
             setState(() {
