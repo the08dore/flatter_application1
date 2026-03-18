@@ -42,7 +42,11 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   Text(
                     "signupScreen",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+                    style: TextStyle(
+                      color: primaryColor,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
 
                   SizedBox(height: 20),
@@ -52,6 +56,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Text(
                         "Full Name",
                         style: TextStyle(
+                          color: primaryColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
@@ -81,6 +86,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Text(
                         "Email",
                         style: TextStyle(
+                          color: primaryColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
@@ -108,6 +114,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Text(
                         "Enter phone number",
                         style: TextStyle(
+                          color: primaryColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
@@ -135,6 +142,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Text(
                         "Enter ID number",
                         style: TextStyle(
+                          color: primaryColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
@@ -163,6 +171,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Text(
                         "Password",
                         style: TextStyle(
+                          color: primaryColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
@@ -192,6 +201,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Text(
                         "Confirm Password",
                         style: TextStyle(
+                          color: primaryColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
@@ -229,7 +239,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       child: Text(
                         "Create Account",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        style: TextStyle(color: secondaryColor, fontSize: 16),
                       ),
                     ),
                   ),

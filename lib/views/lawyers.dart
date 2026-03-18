@@ -12,6 +12,7 @@ class _LawyersState extends State<Lawyers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -30,7 +31,7 @@ class _LawyersState extends State<Lawyers> {
                 ),
                 subtitle: const Text("Connect with registered law firms"),
                 onTap: () {
-                  Get.toNamed('/law-firms');
+                  Get.toNamed('/lawfirms');
                 },
               ),
             ),

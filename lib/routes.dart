@@ -1,5 +1,7 @@
 import 'package:flutter_application_2/views/freelance.dart';
+import 'package:flutter_application_2/views/lawfirms.dart';
 import 'package:flutter_application_2/views/lawyer_signup.dart';
+import 'package:flutter_application_2/views/lawyerlogin.dart';
 import 'package:flutter_application_2/views/lawyers.dart';
 import 'package:flutter_application_2/views/profile.dart';
 import 'package:flutter_application_2/views/splashscreen.dart';
@@ -15,6 +17,8 @@ var routes = [
   GetPage(name: '/splashscreen', page: () => SplashScreen()),
   GetPage(name: '/lawyersignup', page: () => LawyerSignup()),
   GetPage(name: '/profile', page: () => Profile()),
-  GetPage(name: '/lawyers', page: ()=>Lawyers()),
-  GetPage(name: '/freelance', page: ()=>FreeLance()),
+  GetPage(name: '/lawyers', page: () => Lawyers()),
+  GetPage(name: '/freelance', page: () => FreeLance()),
+  GetPage(name: '/lawyerlogin', page: () => LawyerLogin()),
+  GetPage(name: '/lawfirms', page: () => LawFirms()),
 ];

@@ -37,7 +37,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   Text(
                     "Login Screen",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+                    style: TextStyle(
+                      color: primaryColor,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
 
                   SizedBox(height: 20),
@@ -48,6 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         "Enter Username",
                         style: TextStyle(
+                          color: primaryColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
@@ -77,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         "Enter password",
                         style: TextStyle(
+                          color: primaryColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
@@ -98,7 +103,34 @@ class _LoginScreenState extends State<LoginScreen> {
                       prefixIcon: const Icon(Icons.lock),
                     ),
                   ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have an account?",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      SizedBox(width: 5),
 
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed('/signup');
+                        },
+                        child: Text(
+                          "Sign up",
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      ),
+                      Spacer(),
+                      SizedBox(width: 10),
+                      Text(
+                        "Forgot password? ",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text("Reset", style: TextStyle(color: Colors.blue)),
+                    ],
+                  ),
                   SizedBox(height: 30),
 
                   GestureDetector(
@@ -120,26 +152,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
 
                   SizedBox(height: 10),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Don't have an account?"),
-                      SizedBox(width: 5),
-
                       GestureDetector(
                         onTap: () {
-                          Get.toNamed('/signup');
+                          Get.toNamed('/lawyerlogin');
                         },
                         child: Text(
-                          "Sign up",
+                          "log in as lawyer",
                           style: TextStyle(color: Colors.blue),
                         ),
                       ),
-                      Spacer(),
-                      SizedBox(width: 10),
-                      Text("Forgot password? "),
-                      Text("Reset", style: TextStyle(color: Colors.blue)),
                     ],
                   ),
                 ],

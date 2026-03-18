@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter_application_2/config/colors.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -161,8 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
       bottomNavigationBar: CurvedNavigationBar(
         key: _bottomNavigationKey,
-        backgroundColor: Colors.white,
-        color: Colors.blue,
+        backgroundColor: primaryColor,
+        color: secondaryColor,
         items: <Widget>[
           Icon(
             Icons.home,
