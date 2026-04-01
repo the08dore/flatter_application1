@@ -1,27 +1,29 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/config/colors.dart';
 import 'package:flutter_application_2/controllers/logincontroller.dart';
+import 'package:flutter_application_2/views/signup.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
-// FIX: Removed unused "import 'package:http/http.dart' as http;"
-// FIX: Moved controllers inside the State class to avoid global state leaks
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  TextEditingController username = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // FIX: Declare controllers here so they are disposed with the widget
   final LoginController loginController = Get.put(LoginController());
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
   void dispose() {
-    // FIX: Always dispose TextEditingControllers to free memory
-    usernameController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -57,11 +59,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Enter Username",
+                        "Enter Email",
                         style: TextStyle(
                           color: primaryColor,
                           fontSize: 16,
@@ -71,21 +74,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   const SizedBox(height: 10),
+
                   TextField(
-                    controller: usernameController,
+                    controller: emailController,
                     style: const TextStyle(color: Colors.white),
-                    // FIX: Set keyboard type to email for better UX
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      labelText: "Use email or phone number",
+                      labelText: "Enter email",
                       labelStyle: const TextStyle(color: Colors.white),
-                      prefixIcon: const Icon(Icons.person),
+                      prefixIcon: const Icon(Icons.email),
                     ),
                   ),
+
                   const SizedBox(height: 30),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -100,6 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   const SizedBox(height: 10),
+
                   Obx(
                     () => TextField(
                       controller: passwordController,
@@ -123,7 +129,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 20),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -147,51 +155,59 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text("Reset", style: TextStyle(color: Colors.blue)),
                     ],
                   ),
+
                   const SizedBox(height: 30),
 
-                  // FIX: Wrap login button with Obx to show loading indicator
-                  Obx(
-                    () => GestureDetector(
-                      onTap: loginController.isLoading.value
-                          ? null // Disable tap while loading
-                          : () async {
-                              bool success = await loginController.login(
-                                usernameController.text,
-                                passwordController.text,
-                              );
-                              if (success) {
-                                Get.toNamed("/homescreen");
-                              } else {
-                                Get.snackbar(
-                                  'Log in failed',
-                                  'Invalid username or password',
-                                );
-                              }
-                            },
-                      child: Container(
-                        height: 50,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        // FIX: Show spinner while loading, text otherwise
-                        child: loginController.isLoading.value
-                            ? const CircularProgressIndicator(
-                                color: Colors.black,
-                              )
-                            : const Text(
-                                "Login",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                ),
-                              ),
+                  GestureDetector(
+                    onTap: () async {
+                      if (emailController.text.isEmpty) {
+                        Get.snackbar("error", "Enter email");
+                      } else if (passwordController.text.isEmpty) {
+                        Get.snackbar("error", "Enter password");
+                      } else {
+                        final response = await http.get(
+                          Uri.parse(
+                            // FIX: was email.text and password.text (empty StatefulWidget
+                            // controllers) — changed to emailController.text and
+                            // passwordController.text from the State class
+                            "http://192.168.44.8/flutter_api/login.php?email=${emailController.text}&password=${passwordController.text}",
+                          ),
+                        );
+
+                        print(response.body);
+
+                        if (response.statusCode == 200) {
+                          final serverData = jsonDecode(response.body);
+
+                          if (serverData['code'] == 1) {
+                            Get.toNamed('/homescreen');
+                          } else {
+                            Get.snackbar(
+                              "Wrong Details",
+                              serverData["message"],
+                            );
+                          }
+                        } else {
+                          Get.snackbar("Server error", "Login failed");
+                        }
+                      }
+                    },
+                    child: Container(
+                      height: 50,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     ),
                   ),
 
                   const SizedBox(height: 10),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
