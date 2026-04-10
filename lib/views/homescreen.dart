@@ -60,24 +60,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         ListTile(
                           leading: const Icon(Icons.person),
-                          title: const Text("Lawyers"),
+                          title: const Text("Players News"),
                           onTap: () {
                             Navigator.pop(context);
-                            Get.toNamed('/lawyers');
+                            Get.toNamed('/players');
                           },
                         ),
                         ListTile(
                           leading: const Icon(Icons.chat),
-                          title: const Text("Post Question"),
+                          title: const Text(
+                            "Request To Sign Up For Tournament",
+                          ),
                           onTap: () {
                             Navigator.pop(context);
-                            Get.toNamed('/questions');
+                            Get.toNamed('/Register');
                           },
                         ),
-                        ListTile(
-                          leading: const Icon(Icons.settings),
-                          title: const Text("Settings"),
-                        ),
+
                         ListTile(
                           leading: const Icon(Icons.notifications),
                           title: const Text("Notifications"),
