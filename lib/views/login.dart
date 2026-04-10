@@ -170,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             // FIX: was email.text and password.text (empty StatefulWidget
                             // controllers) — changed to emailController.text and
                             // passwordController.text from the State class
-                            "http://192.168.44.8/flutter_api/login.php?email=${emailController.text}&password=${passwordController.text}",
+                            "http://192.168.44.10/flutter_api/login.php?email=${emailController.text}&password=${passwordController.text}",
                           ),
                         );
 

@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:flutter_application_2/views/homescreen.dart';
 import 'package:flutter_application_2/views/login.dart';
 import 'package:flutter_application_2/views/signup.dart';
+import 'package:flutter_application_2/views/notifications.dart';
 
 var routes = [
   GetPage(name: '/', page: () => LoginScreen()),
@@ -20,5 +21,7 @@ var routes = [
   GetPage(name: '/lawyers', page: () => Lawyers()),
   GetPage(name: '/freelance', page: () => FreeLance()),
   GetPage(name: '/lawyerlogin', page: () => LawyerLogin()),
+  GetPage(name: '/notification', page: () => NotificationScreen()),
   GetPage(name: '/lawfirms', page: () => LawFirms()),
+  GetPage(name: '/notification', page: () => NotificationScreen()),
 ];

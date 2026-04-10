@@ -18,10 +18,8 @@ class LoginController extends GetxController {
     isLoading.value = true;
 
     try {
-      // FIX: Changed to GET to match $_GET in login.php
-      // FIX: Changed IP from 10.0.2.2 (emulator) to your physical phone IP
       var url = Uri.parse(
-        "http://192.168.44.8/flutter_api/login.php?email=$email&password=$password",
+        "http://192.168.44.10/flutter_api/login.php?email=$email&password=$password",
       );
 
       var response = await http.get(url);
