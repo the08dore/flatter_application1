@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/config/api.dart';
 import 'package:http/http.dart' as http;
 
 class PersonalNotificationsScreen extends StatefulWidget {
@@ -30,10 +31,7 @@ class _PersonalNotificationsScreenState
     });
     try {
       final response = await http.get(
-        Uri.parse(
-          "http://192.168.44.24/flutter_api/read_personal_notifications.php"
-          "?user_id=${widget.userId}",
-        ),
+        Api.readPersonalNotifications(widget.userId),
       );
 
       if (response.statusCode == 200) {

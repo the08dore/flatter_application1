@@ -5,6 +5,7 @@ import 'package:flutter_application_2/controllers/logincontroller.dart';
 import 'package:flutter_application_2/controllers/user_controller.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_application_2/config/api.dart';
 
 class LoginScreen extends StatefulWidget {
   TextEditingController username = TextEditingController();
@@ -167,10 +168,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         Get.snackbar("error", "Enter password");
                       } else {
                         final response = await http.get(
-                          Uri.parse(
-                            "http://192.168.44.24/flutter_api/login.php"
-                            "?email=${emailController.text}"
-                            "&password=${passwordController.text}",
+                          Api.login(
+                            emailController.text,
+                            passwordController.text,
                           ),
                         );
 

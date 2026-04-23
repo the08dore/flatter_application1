@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_application_2/config/api.dart';
 
 class StaffDashboardScreen extends StatefulWidget {
   final String staffName;
@@ -28,9 +29,7 @@ class _StaffDashboardScreenState extends State<StaffDashboardScreen> {
       errorMessage = '';
     });
     try {
-      final response = await http.get(
-        Uri.parse("http://192.168.44.24/flutter_api/read_applications.php"),
-      );
+      final response = await http.get(Api.readApplications());
       final data = jsonDecode(response.body);
       if (data['code'] == 1) {
         setState(() {
@@ -53,11 +52,7 @@ class _StaffDashboardScreenState extends State<StaffDashboardScreen> {
 
   Future<void> respond(String id, String status) async {
     try {
-      final response = await http.get(
-        Uri.parse(
-          "http://192.168.44.24/flutter_api/respond_application.php?id=$id&status=$status",
-        ),
-      );
+      final response = await http.get(Api.respondApplication(id, status));
       final data = jsonDecode(response.body);
       Get.snackbar(
         data['code'] == 1 ? 'Done' : 'Failed',
@@ -73,12 +68,7 @@ class _StaffDashboardScreenState extends State<StaffDashboardScreen> {
 
   Future<void> sendNotification(String userId, String message) async {
     try {
-      final response = await http.get(
-        Uri.parse(
-          "http://192.168.44.24/flutter_api/send_notification.php"
-          "?user_id=$userId&message=$message",
-        ),
-      );
+      final response = await http.get(Api.sendNotification(userId, message));
       final data = jsonDecode(response.body);
       Get.snackbar(
         data['code'] == 1 ? 'Sent' : 'Failed',

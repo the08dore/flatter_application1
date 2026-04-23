@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/config/api.dart';
 import 'package:http/http.dart' as http;
 
 class MyApplicationsScreen extends StatefulWidget {
@@ -27,12 +28,7 @@ class _MyApplicationsScreenState extends State<MyApplicationsScreen> {
       errorMessage = '';
     });
     try {
-      final response = await http.get(
-        Uri.parse(
-          "http://192.168.44.24/flutter_api/my_applications.php"
-          "?userEmail=${Uri.encodeComponent(widget.userEmail)}",
-        ),
-      );
+      final response = await http.get(Api.myApplications(widget.userEmail));
       final data = jsonDecode(response.body);
       if (data['code'] == 1) {
         setState(() {

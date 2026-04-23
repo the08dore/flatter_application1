@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_2/config/colors.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_application_2/config/api.dart';
 
 TextEditingController firstname = TextEditingController();
 TextEditingController lastname = TextEditingController();
@@ -228,9 +229,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         Get.snackbar("Error", "Passwords do not match");
                       } else {
                         final response = await http.post(
-                          Uri.parse(
-                            "http://192.168.44.24/flutter_api/create.php",
-                          ),
+                          Api.createUser(),
                           body: {
                             "firstname": firstname.text,
                             "lastname": lastname.text,

@@ -4,6 +4,7 @@ import 'package:flutter_application_2/config/colors.dart';
 import 'package:flutter_application_2/views/staff_dashboard_screen.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_application_2/config/api.dart';
 
 class StaffLoginScreen extends StatefulWidget {
   TextEditingController username = TextEditingController();
@@ -141,10 +142,9 @@ class _StaffLoginScreenState extends State<StaffLoginScreen> {
                         setState(() => isLoading = true);
                         try {
                           final response = await http.get(
-                            Uri.parse(
-                              "http://192.168.44.24/flutter_api/staff_login.php"
-                              "?email=${Uri.encodeComponent(emailController.text.trim())}"
-                              "&password=${Uri.encodeComponent(passwordController.text.trim())}",
+                            Api.staffLogin(
+                              emailController.text.trim(),
+                              passwordController.text.trim(),
                             ),
                           );
 
