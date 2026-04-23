@@ -1,9 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/config/colors.dart';
 import 'package:flutter_application_2/controllers/logincontroller.dart';
-import 'package:flutter_application_2/views/signup.dart';
+import 'package:flutter_application_2/controllers/user_controller.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,6 +17,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final LoginController loginController = Get.put(LoginController());
+  // Register UserController so it's available globally across all screens
+  final UserController userController = Get.put(UserController());
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -167,10 +168,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       } else {
                         final response = await http.get(
                           Uri.parse(
-                            // FIX: was email.text and password.text (empty StatefulWidget
-                            // controllers) — changed to emailController.text and
-                            // passwordController.text from the State class
-                            "http://192.168.44.14/flutter_api/login.php?email=${emailController.text}&password=${passwordController.text}",
+                            "http://192.168.44.24/flutter_api/login.php"
+                            "?email=${emailController.text}"
+                            "&password=${passwordController.text}",
                           ),
                         );
 
@@ -180,6 +180,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           final serverData = jsonDecode(response.body);
 
                           if (serverData['code'] == 1) {
+                            // FIX: Save user data globally so all screens can use it
+                            userController.setUser(
+                              serverData['userdetails'][0],
+                            );
                             Get.toNamed('/homescreen');
                           } else {
                             Get.snackbar(
@@ -208,17 +212,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 10),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () => Get.toNamed('/lawyerlogin'),
-                        child: const Text(
-                          "log in as lawyer",
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: () => Get.toNamed('/stafflogin'),
+                    child: const Text(
+                      "Login as staff",
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   ),
                 ],
               ),

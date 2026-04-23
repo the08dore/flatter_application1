@@ -1,119 +1,184 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/config/colors.dart';
-import 'package:flutter_application_2/controllers/notification_controller.dart';
-import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
-class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({super.key});
+class PersonalNotificationsScreen extends StatefulWidget {
+  final String userId;
+  const PersonalNotificationsScreen({super.key, required this.userId});
 
-  Widget buildCard(NotificationController controller, dynamic item) {
-    return Card(
-      elevation: 4,
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                controller.buildImageUrl(item['image']),
-                width: 70,
-                height: 70,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, progress) {
-                  if (progress == null) return child;
-                  return Container(
-                    width: 70,
-                    height: 70,
-                    color: Colors.grey[200],
-                    child: const Center(
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                  );
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    width: 70,
-                    height: 70,
-                    color: Colors.grey[200],
-                    child: const Icon(
-                      Icons.image_not_supported,
-                      color: Colors.grey,
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item['title'] ?? '',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    item['message'] ?? '',
-                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
-                  ),
-                ],
-              ),
-            ),
-          ],
+  @override
+  State<PersonalNotificationsScreen> createState() =>
+      _PersonalNotificationsScreenState();
+}
+
+class _PersonalNotificationsScreenState
+    extends State<PersonalNotificationsScreen> {
+  List<dynamic> notifications = [];
+  bool isLoading = true;
+  String errorMessage = '';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchNotifications();
+  }
+
+  Future<void> fetchNotifications() async {
+    setState(() {
+      isLoading = true;
+      errorMessage = '';
+    });
+    try {
+      final response = await http.get(
+        Uri.parse(
+          "http://192.168.44.24/flutter_api/read_personal_notifications.php"
+          "?user_id=${widget.userId}",
         ),
-      ),
-    );
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['code'] == 1) {
+          setState(() {
+            notifications = data['notifications'];
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            errorMessage = data['message'];
+            isLoading = false;
+          });
+        }
+      } else {
+        setState(() {
+          errorMessage = 'Server error. Please try again.';
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Could not reach server: $e';
+        isLoading = false;
+      });
+    }
+  }
+
+  // Format the created_at timestamp nicely
+  String formatDate(String rawDate) {
+    try {
+      final dt = DateTime.parse(rawDate);
+      return "${dt.day}/${dt.month}/${dt.year}  ${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}";
+    } catch (_) {
+      return rawDate;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final NotificationController controller =
-        Get.find<NotificationController>();
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Notifications"),
-        backgroundColor: primaryColor,
+        title: const Text('My Notifications'),
+        backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (controller.notifications.isEmpty) {
-          return const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.notifications_off, size: 64, color: Colors.grey),
-                SizedBox(height: 16),
-                Text(
-                  "No notifications yet",
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
-              ],
-            ),
-          );
-        }
-        return RefreshIndicator(
-          onRefresh: controller.fetchNotifications,
-          child: ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            itemCount: controller.notifications.length,
-            itemBuilder: (context, index) {
-              return buildCard(controller, controller.notifications[index]);
-            },
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset('assets/sign_up.jpg', fit: BoxFit.cover),
           ),
-        );
-      }),
+          Container(color: Colors.black.withOpacity(0.5)),
+          isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(color: Colors.white),
+                )
+              : errorMessage.isNotEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        errorMessage,
+                        style: const TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 12),
+                      ElevatedButton(
+                        onPressed: fetchNotifications,
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                )
+              : ListView.separated(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: notifications.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final notif = notifications[index];
+                    final isYes = notif['message'] == 'yes';
+                    return Card(
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                        leading: CircleAvatar(
+                          backgroundColor: (isYes ? Colors.green : Colors.red)
+                              .withOpacity(0.15),
+                          child: Icon(
+                            isYes ? Icons.check_circle : Icons.cancel,
+                            color: isYes ? Colors.green : Colors.red,
+                          ),
+                        ),
+                        title: Text(
+                          isYes
+                              ? 'Application Accepted'
+                              : 'Application Declined',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: isYes ? Colors.green : Colors.red,
+                          ),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 4),
+                            Text(
+                              isYes
+                                  ? 'Congratulations! You have been accepted.'
+                                  : 'Unfortunately your application was not successful.',
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.access_time,
+                                  size: 12,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  formatDate(notif['created_at']),
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+        ],
+      ),
     );
   }
 }

@@ -19,7 +19,7 @@ class LoginController extends GetxController {
 
     try {
       var url = Uri.parse(
-        "http://192.168.44.10/flutter_api/login.php?email=$email&password=$password",
+        "http://10.7.19.165/flutter_api/login.php?email=$email&password=$password",
       );
 
       var response = await http.get(url);

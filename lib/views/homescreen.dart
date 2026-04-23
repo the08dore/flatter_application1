@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_application_2/config/colors.dart';
 import 'package:flutter_application_2/controllers/notification_controller.dart';
+import 'package:flutter_application_2/controllers/user_controller.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   final NotificationController notifController =
       Get.find<NotificationController>();
+  // FIX: Access the globally stored user so we can pass userId to screens
+  final UserController userController = Get.find<UserController>();
 
   Future<void> showMenu(BuildContext context, String title) async {
     await showModalBottomSheet(
@@ -59,30 +62,33 @@ class _HomeScreenState extends State<HomeScreen> {
                       controller: scrollController,
                       children: [
                         ListTile(
-                          leading: const Icon(Icons.person),
-                          title: const Text("Players News"),
-                          onTap: () {
-                            Navigator.pop(context);
-                            Get.toNamed('/players');
-                          },
-                        ),
-                        ListTile(
                           leading: const Icon(Icons.chat),
                           title: const Text(
                             "Request To Sign Up For Tournament",
                           ),
                           onTap: () {
                             Navigator.pop(context);
-                            Get.toNamed('/Register');
+                            // FIX: Pass user profile from UserController
+                            Get.toNamed(
+                              '/register',
+                              arguments: {
+                                'name': userController.fullName,
+                                'email': userController.email.value,
+                                'age': '',
+                              },
+                            );
                           },
                         ),
-
                         ListTile(
                           leading: const Icon(Icons.notifications),
                           title: const Text("Notifications"),
                           onTap: () {
                             Navigator.pop(context);
-                            Get.toNamed('/notification');
+                            // FIX: Pass userId to notifications screen
+                            Get.toNamed(
+                              '/mynotifications',
+                              arguments: userController.userId.value,
+                            );
                           },
                         ),
                         ListTile(
@@ -90,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: const Text("Logout"),
                           onTap: () {
                             Navigator.pop(context);
+                            userController.clearUser();
                             Get.toNamed('/');
                           },
                         ),
@@ -193,7 +200,8 @@ class _HomeScreenState extends State<HomeScreen> {
               if (value == 'profile') {
                 Get.toNamed('/profile');
               } else if (value == 'exit') {
-                Get.toNamed('/login');
+                userController.clearUser();
+                Get.toNamed('/');
               }
             },
             itemBuilder: (context) => [

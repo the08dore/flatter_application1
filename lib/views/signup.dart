@@ -229,7 +229,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       } else {
                         final response = await http.post(
                           Uri.parse(
-                            "http://192.168.44.14/flutter_api/create.php",
+                            "http://192.168.44.24/flutter_api/create.php",
                           ),
                           body: {
                             "firstname": firstname.text,
@@ -269,27 +269,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
 
                   SizedBox(height: 10),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "would you like to join as a lawyer",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      SizedBox(width: 5),
-
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed('/lawyersignup');
-                        },
-                        child: Text(
-                          "click to join as lawyer",
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
